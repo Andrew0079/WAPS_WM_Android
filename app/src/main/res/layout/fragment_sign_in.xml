@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:background="#C2185B"
+    tools:context=".SignInFragment">
+
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/logo"
+        android:src="@drawable/ic_wifi_black_24dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:id="@+id/welcomeMsg1"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/welcome"
+            android:textColor="#070707"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pleaseS"
+            android:textAlignment="center"
+            android:textColor="#070707"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeMsg1"
+        android:id="@+id/editTextContainer1"
+        android:orientation="vertical"
+        android:layout_marginBottom="55dp"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/email1"
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:autofillHints="@string/email"
+            android:drawableStart="@drawable/ic_action_username"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textColor="#F8F5F6"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/password1"
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/password"
+            android:drawableStart="@drawable/ic_action_lock"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:textColor="#F8F5F6"
+            tools:targetApi="o" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="305dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="25dp"
+        android:id="@+id/btnCard1"
+        android:layout_centerHorizontal="true"
+        android:elevation="10dp"
+        android:layout_below="@+id/editTextContainer1"
+        app:cardBackgroundColor="#0E0D0D">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/login"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="82dp"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:textColor="#070707" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
