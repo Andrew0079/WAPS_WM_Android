@@ -25,6 +25,7 @@ public class AppActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app);
 
 
+
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -52,9 +53,17 @@ public class AppActivity extends AppCompatActivity {
                     case R.id.nav_list:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WifiListFragment()).commit();
                         break;
+                    case R.id.location:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+                        break;
                     case R.id.nav_settings:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
                         break;
+                    case R.id.Logout:
+                        logOut();
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 return true;

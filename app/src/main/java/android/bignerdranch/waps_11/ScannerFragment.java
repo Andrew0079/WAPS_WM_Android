@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -62,11 +63,18 @@ public class ScannerFragment extends Fragment {
     private TimerTask task;
     private RelativeLayout relativeLayout;
     private boolean buttonClicked = false;
+    private int progVal;
 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) { return inflater.inflate(R.layout.fragment_scanner, container, false); }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("progress_pref", Context.MODE_PRIVATE);
+        progVal = sharedPreferences.getInt("progress_key", 0);
+        Log.i("Val", "" + progVal);
+        return inflater.inflate(R.layout.fragment_scanner, container, false); }
 
 
     @Override
@@ -79,6 +87,7 @@ public class ScannerFragment extends Fragment {
         stopButtonScan = view.findViewById(R.id.stopScnBtn);
         clearButton = view.findViewById(R.id.clearList);
         relativeLayout = view.findViewById(R.id.progressBarContainer);
+
 
 
         wifiManager = (WifiManager) requireActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -141,8 +150,10 @@ public class ScannerFragment extends Fragment {
     }
 
     private void timer(TimerTask task) {
+        int tt = this.progVal * 1000;
+        int tt2 = tt * 2;
         this.timer = new Timer();
-        this.timer.schedule(task , 2000, 4000 );
+        this.timer.schedule(task , tt, tt2 );
     }
 
     private void pause() { this.timer.cancel();  }

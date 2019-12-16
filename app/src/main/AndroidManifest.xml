@@ -16,6 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDpI3e4bb9mmqOgFMtoe5htFVkZfERzt9c"
+            ></meta-data>
         <activity
             android:name=".AppActivity"
             android:screenOrientation="portrait"
