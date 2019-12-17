@@ -26,61 +26,58 @@ import com.google.firebase.database.Query;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WifiListFragment extends Fragment {
+public class LocationListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter adapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View mView = inflater.inflate(R.layout.fragment_wifi_list, container, false);
-        recyclerView = mView.findViewById(R.id.recycler_view_database);
+        View mView = inflater.inflate(R.layout.fragment_location_list, container, false);
+
+        recyclerView = mView.findViewById(R.id.recycler_view_Locationdatabase);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         fetch();
         return mView;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mTextView;
+        private TextView mTextView;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
-            mTextView = itemView.findViewById(R.id.text_holder);
+            mTextView = itemView.findViewById(R.id.text_holder_location);
         }
-
-        public void setTxtTitle(String string) {
-            mTextView.setText(string); }
+        private void setTxtTitle(String string) { mTextView.setText(string); }
     }
 
 
     private void fetch() {
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String userId = (String) currentFirebaseUser.getUid();
-        Query query = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("wifiAp");
+        String userId = null;
+        if (currentFirebaseUser != null) { userId = (String) currentFirebaseUser.getUid(); }
+        Query query = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("location");
 
-        FirebaseRecyclerOptions<WifiObject> options = new FirebaseRecyclerOptions.Builder<WifiObject>().setQuery(query, new SnapshotParser<WifiObject>() {
+        FirebaseRecyclerOptions<LocationObject> options = new FirebaseRecyclerOptions.Builder<LocationObject>().setQuery(query, new SnapshotParser<LocationObject>() {
             @NonNull
             @Override
-            public WifiObject parseSnapshot(@NonNull DataSnapshot snapshot) {
-                return new WifiObject(snapshot.child("ssid").getValue().toString(), snapshot.child("bssid").getValue().toString(), (Long) snapshot.child("rssi").getValue(),(Long) snapshot.child("frequency").getValue(), (String) snapshot.child("date").getValue());
+            public LocationObject parseSnapshot(@NonNull DataSnapshot snapshot) {
+                return new LocationObject((Double) snapshot.child("longitude").getValue(), (Double) snapshot.child("latitude").getValue(), (String) snapshot.child("date").getValue());
             }
         }).build();
 
-        adapter = new FirebaseRecyclerAdapter<WifiObject, ViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<LocationObject, LocationListFragment.ViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int i, @NonNull WifiObject wifiObject) {
-                String content = "SSID: " + wifiObject.getSSID() + "\nBSSID: " + wifiObject.getBSSID() + "\nRSSI: " + wifiObject.getRSSI() + "\nFrequency: " + wifiObject.getFrequency() + "\nDate: " + wifiObject.getDate();
+            protected void onBindViewHolder(@NonNull LocationListFragment.ViewHolder viewHolder, int i, @NonNull LocationObject locationObject) {
+                String content = "Date: " + locationObject.getDate() + "\nLatitude: "+ locationObject.getLatitude() + "\nLongitude: " + locationObject.getLongitude();
                 viewHolder.setTxtTitle(content);
             }
 
-
             @NonNull
             @Override
-            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
+            public LocationListFragment.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_locaion, parent, false);
                 return new ViewHolder(view);
 
             }

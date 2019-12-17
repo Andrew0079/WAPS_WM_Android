@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,9 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +28,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,30 +45,30 @@ import java.util.TimerTask;
  */
 public class ScannerFragment extends Fragment {
 
-    //private FusedLocationProviderClient mClient;
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private WifiManager wifiManager;
     private final int MY_PERMISSIONS_ACCESS_COARSE_LOCATION = 1;
     private WifiReceiver receiverWifi;
-    private DatabaseReference mDatabaseReference;
     private List<WifiObject> mWifiListObject = new ArrayList<>();
-    private FirebaseAuth mAuth;
     private Timer timer;
     private TimerTask task;
     private RelativeLayout relativeLayout;
     private boolean buttonClicked = false;
     private int progVal;
-
+    private String userId;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("progress_pref", Context.MODE_PRIVATE);
-        progVal = sharedPreferences.getInt("progress_key", 0);
-        Log.i("Val", "" + progVal);
+        progVal = sharedPreferences.getInt("progress_key", 2);
+
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentFirebaseUser != null){ userId = currentFirebaseUser.getUid(); }
+
+
         return inflater.inflate(R.layout.fragment_scanner, container, false); }
 
 
@@ -102,9 +97,7 @@ public class ScannerFragment extends Fragment {
                 if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
                 } else {
-
                     buttonClicked = true;
-
                     if(!mWifiListObject.isEmpty()){
                         mWifiListObject.clear();
                         mAdapter.notifyDataSetChanged();
@@ -160,20 +153,19 @@ public class ScannerFragment extends Fragment {
 
 
     private void getWifi() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Toast.makeText(requireContext(), "Version >= Marshmallow", Toast.LENGTH_SHORT).show();
-            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(requireContext(), "Location Turned Off", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
-            } else { Toast.makeText(requireContext(), "Location Turned On", Toast.LENGTH_SHORT).show(); }
-        }
-
+        } else { Toast.makeText(requireContext(), "Location Turned On", Toast.LENGTH_SHORT).show(); }
     }
 
     class WifiReceiver extends BroadcastReceiver {
 
         WifiManager wifiManager;
         RecyclerView wifiDeviceList;
+        WifiObject wifiObject;
+        DatabaseReference mDatabaseReferenceAdd;
+        List<ScanResult> mScanResults;
 
         public WifiReceiver(WifiManager wifiManager, RecyclerView wifiDeviceList) {
             this.wifiManager = wifiManager;
@@ -186,12 +178,8 @@ public class ScannerFragment extends Fragment {
 
             if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
 
-                List<ScanResult> mScanResults = wifiManager.getScanResults();
-                WifiObject mWifiObject = new WifiObject();
-
-                FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                String userId = currentFirebaseUser.getUid();
-                mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(userId);
+                mScanResults = wifiManager.getScanResults();
+                mDatabaseReferenceAdd  = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
                 for (ScanResult scanResult : mScanResults) {
 
@@ -199,36 +187,21 @@ public class ScannerFragment extends Fragment {
                     @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
                     String dateString = formatter.format(new Date(Long.parseLong(String.valueOf(actualTimestamp))));
 
-                    android.util.Log.i("TEST", "dateStr: " + dateString);
-                    //WifiObject temp = new WifiObject(scanResult.SSID, scanResult.BSSID, scanResult.level, scanResult.frequency, dateString);
+                    wifiObject = new WifiObject(scanResult.SSID, scanResult.BSSID, scanResult.level, scanResult.frequency, dateString);
+                    mWifiListObject.add(wifiObject);
+                    mDatabaseReferenceAdd.child("wifiAp").push().setValue(wifiObject);
 
-                    mWifiListObject.add(new WifiObject(scanResult.SSID, scanResult.BSSID, scanResult.level, scanResult.frequency, dateString));
-                    mWifiObject.setSSID(scanResult.SSID);
-                    mWifiObject.setBSSID(scanResult.BSSID);
-                    mWifiObject.setRSSI(scanResult.level);
-                    mWifiObject.setLocation(scanResult.frequency);
-
-                    mWifiObject.setDate(dateString);
-//                    mClient.getLastLocation().addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
-//                        @Override
-//                        public void onSuccess(Location location) {
-//
-//                            mWifiObject.setLocation(location.toString());
-//                        }
-//                    });
-                    //mDatabaseReference.push().setValue(mWifiObject);
                 }
 
-                mRecyclerView = requireActivity().findViewById(R.id.wifiList);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                mAdapter = new RecyclerViewAdapter(mWifiListObject);
-                mRecyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-
             }
-            //wifiManager.startScan();
+            mRecyclerView = requireActivity().findViewById(R.id.wifiList);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mAdapter = new RecyclerViewAdapter(mWifiListObject);
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
         }
     }
+
 
     @Override
     public void onResume() {
@@ -267,8 +240,6 @@ public class ScannerFragment extends Fragment {
     static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTextView;
-
-        //public RecyclerViewHolder(View itemView){ super(itemView); }
 
         private RecyclerViewHolder(LayoutInflater inflater, ViewGroup container) {
             super((inflater.inflate(R.layout.card_view, container, false)));

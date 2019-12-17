@@ -1,56 +1,59 @@
 package android.bignerdranch.waps_11;
 
 public class WifiObject {
-    private String SSID;
-    private String BSSID;
-    private long RSSI;
+    private String mSSID;
+    private String mBSSID;
+    private long mRSSI;
     private long mFrequency;
-    private String mDate;
+    private String mDate = "scanDate";
 
     public WifiObject(){}
 
     public WifiObject(String SSID, String BSSID, long RSSI, long frequency, String date) {
-        this.SSID = SSID;
-        this.BSSID = BSSID;
-        this.RSSI = RSSI;
+        this.mSSID = SSID;
+        this.mBSSID = BSSID;
+        this.mRSSI = RSSI;
         this.mFrequency = frequency;
         this.mDate = date;
-
-
     }
 
-    public String getDate() { return mDate; }
-
-    public void setDate(String date) { mDate = date; }
-
     public String getSSID() {
-        return SSID;
+        return mSSID;
     }
 
     public void setSSID(String SSID) {
-        this.SSID = SSID;
+        mSSID = SSID;
     }
 
     public String getBSSID() {
-        return BSSID;
+        return mBSSID;
     }
 
     public void setBSSID(String BSSID) {
-        this.BSSID = BSSID;
+        mBSSID = BSSID;
     }
 
     public long getRSSI() {
-        return RSSI;
+        return mRSSI;
     }
 
     public void setRSSI(long RSSI) {
-        this.RSSI = RSSI;
+        mRSSI = RSSI;
     }
 
     public long getFrequency() {
         return mFrequency;
     }
 
-    public void setLocation(long frequency ) { this.mFrequency = frequency; }
+    public void setFrequency(long frequency) {
+        mFrequency = frequency;
+    }
 
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String date) {
+        mDate = date;
+    }
 }

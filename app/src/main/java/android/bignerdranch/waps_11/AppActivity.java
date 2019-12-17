@@ -56,6 +56,9 @@ public class AppActivity extends AppCompatActivity {
                     case R.id.location:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
                         break;
+                    case R.id.locationList:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LocationListFragment()).commit();
+                        break;
                     case R.id.nav_settings:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
                         break;

@@ -35,7 +35,7 @@ public class SettingsFragment extends Fragment {
         View mView = inflater.inflate(R.layout.fragment_settings, container, false);
 
         simpleSeekBar = (SeekBar) mView.findViewById(R.id.seekBar); // initiate the progress bar
-        simpleSeekBar.setMin(1);
+        simpleSeekBar.setMin(2);
         simpleSeekBar.setMax(10);
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("progress_pref", Context.MODE_PRIVATE);
         int progVal = sharedPreferences.getInt("progress_key", 2);
