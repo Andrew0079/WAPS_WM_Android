@@ -25,10 +25,11 @@
     <string name="register">Register Here!</string>
     <string name="backSign">Sign In!</string>
     <string name="scanning">Scanning...</string>
-    <string name="update_details">Update Details</string>
+    <string name="update_details">Change Password</string>
+    <string name="changeEmail">Change Email</string>
     <string name="update">Update</string>
     <string name="location">Get Location</string>
     <string name="locationL">Location List</string>
-
+    <string name="oldPassword">Old Password</string>
     <string name="setTime">Set Time Interval</string>
 </resources>

@@ -6,6 +6,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+/**
+ *
+ * MainActivity host two fragments sign up and sign in fragments
+ *
+ *
+ * */
 public class MainActivity extends AppCompatActivity {
 
     @Override

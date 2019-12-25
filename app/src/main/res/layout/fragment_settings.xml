@@ -29,10 +29,15 @@
             android:padding="15dp"
             android:text="@string/setTime" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/radius_seekbar">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:paddingLeft="20dp"
             android:paddingTop="20dp"
             android:paddingRight="20dp"
@@ -44,8 +49,9 @@
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#FFFFFF" />
+             />
 
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -74,16 +80,29 @@
 
 
 
-        <com.google.android.material.textfield.TextInputLayout
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textColorHint="@android:color/white"
-            >
+            android:orientation="vertical"
+            android:paddingTop="20dp">
 
+            <EditText
+                android:id="@+id/oldPsw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints=""
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:hint="@string/oldPassword"
+                android:inputType="textPassword"
+                tools:targetApi="o" />
 
             <EditText
                 android:id="@+id/passwordUp"
+                android:paddingTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -95,6 +114,7 @@
                 tools:targetApi="o" />
 
             <Button
+                android:id="@+id/pswBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/buttons"
@@ -103,19 +123,29 @@
                 android:text="@string/update" />
 
 
-        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/changeEm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@android:color/white"
-            >
+            android:ems="10"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:padding="15dp"
+            android:text="@string/changeEmail" />
 
             <EditText
                 android:id="@+id/emailUp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:autofillHints=""
                 android:ems="10"
@@ -125,15 +155,14 @@
                 tools:targetApi="o" />
 
             <Button
+                android:id="@+id/btnEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/buttons"
                 android:textColor="@color/colorAccent"
                 android:layout_margin="10dp"
                 android:text="@string/update"/>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -87,7 +87,7 @@ public class ScannerFragment extends Fragment {
 
         wifiManager = (WifiManager) requireActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager != null && !wifiManager.isWifiEnabled()) {
-            Toast.makeText(requireActivity().getApplicationContext(), "Turning WiFi ON...", Toast.LENGTH_LONG).show();
+            Toast.makeText(requireContext().getApplicationContext(), "Turning WiFi ON...", Toast.LENGTH_LONG).show();
             wifiManager.setWifiEnabled(true);
         }
 
@@ -154,9 +154,9 @@ public class ScannerFragment extends Fragment {
 
     private void getWifi() {
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "Location Turned Off", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Location Turned Off", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
-        } else { Toast.makeText(requireContext(), "Location Turned On", Toast.LENGTH_SHORT).show(); }
+        } else { Toast.makeText(getActivity(), "Location Turned On", Toast.LENGTH_SHORT).show(); }
     }
 
     class WifiReceiver extends BroadcastReceiver {
@@ -223,10 +223,10 @@ public class ScannerFragment extends Fragment {
         switch (requestCode) {
             case MY_PERMISSIONS_ACCESS_COARSE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
                     wifiManager.startScan();
                 } else {
-                    Toast.makeText(requireContext(), "Permission not Granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Permission not Granted", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 break;
