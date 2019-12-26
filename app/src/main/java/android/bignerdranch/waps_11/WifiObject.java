@@ -1,5 +1,12 @@
 package android.bignerdranch.waps_11;
 
+/**
+ *
+ *
+ * A Class to hold all the data of the wifi ap points
+ *
+ * */
+
 public class WifiObject {
     private String mSSID;
     private String mBSSID;
@@ -7,8 +14,10 @@ public class WifiObject {
     private long mFrequency;
     private String mDate = "scanDate";
 
+    //empty constructor
     public WifiObject(){}
 
+    //constructor for wifi object class
     public WifiObject(String SSID, String BSSID, long RSSI, long frequency, String date) {
         this.mSSID = SSID;
         this.mBSSID = BSSID;
@@ -17,6 +26,7 @@ public class WifiObject {
         this.mDate = date;
     }
 
+    //getters and setters
     public String getSSID() {
         return mSSID;
     }

@@ -37,7 +37,6 @@ dependencies {
     implementation 'com.android.support:design'
 
 
-    androidTestCompile 'com.21buttons:fragment-test-rule:1.0.0'
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     testImplementation 'junit:junit:4.12'

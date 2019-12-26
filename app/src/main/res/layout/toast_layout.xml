@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:padding="45dp"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp">
 
     </TextView>
