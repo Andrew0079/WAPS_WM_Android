@@ -41,6 +41,7 @@ public class AppActivity extends AppCompatActivity {
             }
         });
 
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -55,6 +56,10 @@ public class AppActivity extends AppCompatActivity {
                         break;
                     case R.id.location:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+                        break;
+                    case R.id.indoorLocation:
+                        Intent intent = new Intent(AppActivity.this, RegionActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.locationList:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LocationListFragment()).commit();

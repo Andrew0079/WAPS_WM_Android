@@ -3,6 +3,7 @@
     <string name="navigation_drawer_open">Open navigation draw</string>
     <string name="navigation_drawer_close">Close Navigation Draw</string>
     <string name="wifi_ap_list">Wifi AP List</string>
+    <string name="indoor">Indoor Location</string>
     <string name="settings">Settings</string>
     <string name="scan_wifi">Scan Wifi Access Points</string>
 
@@ -24,7 +25,7 @@
 
     <string name="register">Register Here!</string>
     <string name="backSign">Sign In!</string>
-    <string name="scanning">Scanning...</string>
+    <string name="scanning">Scanning…</string>
     <string name="update_details">Change Password</string>
     <string name="changeEmail">Change Email</string>
     <string name="update">Update</string>
@@ -32,4 +33,12 @@
     <string name="locationL">Location List</string>
     <string name="oldPassword">Old Password</string>
     <string name="setTime">Set Time Interval</string>
+
+    <string name="venue_outside">Outside mapped area</string>
+    <string name="venue_inside">In venue</string>
+    <string name="floor_plan_outside">No floor plan</string>
+    <string name="floor_certainty_percentage">Certainty: %.1f %%</string>
+    <string name="region_information">Region Information</string>
+    <string name="floor_level">Floor Level</string>
+    <string name="latLong">Latitude and Longitude</string>
 </resources>

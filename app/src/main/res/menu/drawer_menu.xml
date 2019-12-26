@@ -17,9 +17,14 @@
             android:icon="@drawable/ic_location_on_black_24dp"
             android:title="@string/location"/>
         <item
+            android:id="@+id/indoorLocation"
+            android:icon="@drawable/ic_my_location_black_24dp"
+            android:title="@string/indoor"/>
+        <item
             android:id="@+id/nav_list"
             android:icon="@drawable/ic_list_black_24dp"
             android:title="@string/wifi_ap_list"/>
+
         <item
             android:id="@+id/locationList"
             android:icon="@drawable/ic_list_black_24dp"
