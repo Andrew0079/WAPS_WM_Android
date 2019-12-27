@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,7 @@ public class SettingsFragment extends Fragment {
 
     //instance variables
     //edit text to conect to the UI
-    private EditText mNewPsw, mOldPsw;
+    private EditText mNewPsw, mOldPsw, oldPassForEmail, mEmailUp;
     //seek bar to connect to the UI
     private SeekBar simpleSeekBar;
     //text view to connect to the UI
@@ -55,9 +57,11 @@ public class SettingsFragment extends Fragment {
         mOldPsw = mView.findViewById(R.id.oldPsw);
         mNewPsw = mView.findViewById(R.id.passwordUp);
         mTextView = mView.findViewById(R.id.seekBarText);
-
+        mEmailUp = mView.findViewById(R.id.emailUp);
+        oldPassForEmail = mView.findViewById(R.id.oldpsw);
         //initiate the button in the UI
         Button mPasswordBtn = mView.findViewById(R.id.pswBtn);
+        Button mEmailBtn = mView.findViewById(R.id.btnEmail);
 
         // initiate the progress bar
         simpleSeekBar = mView.findViewById(R.id.seekBar);
@@ -122,6 +126,46 @@ public class SettingsFragment extends Fragment {
                             }
                         });
                     }
+                }
+            }
+        });
+
+        mEmailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String oldPSw = oldPassForEmail.getText().toString();
+                final String newEmail = mEmailUp.getText().toString();
+
+                if (oldPSw.length() < 6) { oldPassForEmail.setError("Password to Short!"); }
+                if (newEmail.equals("")) { mEmailUp.setError("Email Required!"); }
+                else {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    // Get auth credentials from the user for re-authentication
+                    AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPSw); // Current Login Credentials
+                    // Prompt the user to re-provide their sign-in credentials
+                    user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            //Now change email address ---Code for Changing Email Address----
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                            user.updateEmail(newEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        //displaying message
+                                        showToast("Email address Updated.");
+                                        //clearing text field
+                                        mEmailUp.setText("");
+                                        oldPassForEmail.setText("");
+                                    } else {
+                                        showToast("Failed, Check Connection.");
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }
             }
         });

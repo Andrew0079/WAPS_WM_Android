@@ -24,6 +24,8 @@ import com.indooratlas.android.sdk.IARegion;
  * however the base belongs to Indoor Atlas
  * been taken from the examples
  *
+ * Displayed data doesn't get saved into a database
+ *
  */
 public class IARegionFragment extends Fragment implements IALocationListener, IARegion.Listener {
 

@@ -44,10 +44,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDpI3e4bb9mmqOgFMtoe5htFVkZfERzt9c" />
-
-        <activity android:name=".RegionActivity"
-            android:screenOrientation="portrait"></activity>
-
         <activity
             android:name=".AppActivity"
             android:screenOrientation="portrait" />

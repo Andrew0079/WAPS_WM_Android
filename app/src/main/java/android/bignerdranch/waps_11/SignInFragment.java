@@ -1,6 +1,7 @@
 package android.bignerdranch.waps_11;
 
 
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -72,6 +75,9 @@ public class SignInFragment extends Fragment {
                 String email = editTextEmail.getText().toString().trim();
                 //getting thte password from user
                 String password = editTextPassword.getText().toString().trim();
+
+                //saving password at each login, so user can delete his/her account
+                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString("pwd", password).apply();
 
                 //validating email and password
                 if(TextUtils.isEmpty(email)){ editTextEmail.setError("Email is required!"); return; }

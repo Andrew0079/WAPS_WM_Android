@@ -39,9 +39,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#080809"
-        app:itemTextColor="@color/colorAccent"
+        app:itemIconTint="@drawable/draw_item_color"
+        app:itemTextColor="@drawable/draw_item_color"
         app:headerLayout="@layout/navigation"
-        app:itemIconTint="@color/colorAccent"
         app:menu="@menu/drawer_menu" />
 
 

@@ -8,6 +8,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -94,6 +96,9 @@ public class SignUpFragment extends Fragment {
                 //getting the input text from the UI
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
+
+                //saving password at each login, so user can delete his/her account
+                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString("pwd", password).apply();
 
                 //testing the email address and password
                 if(TextUtils.isEmpty(email)){ editTextEmail.setError("Email is required!"); return; }

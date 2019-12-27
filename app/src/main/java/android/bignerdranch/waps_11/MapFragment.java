@@ -3,7 +3,9 @@ package android.bignerdranch.waps_11;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -56,12 +58,16 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     //database connection
     private DatabaseReference mDatabaseReferenceAdd;
 
+    private int progVal;
+
 
     //on resume the map is created
     @Override
     public void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("progress_pref", Context.MODE_PRIVATE);
+        progVal = sharedPreferences.getInt("progress_key", 2);
     }
 
     private void setUpMapIfNeeded() { if (mGoogleMap == null) { getMapAsync(this); } }
@@ -98,8 +104,8 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         //requesting the current location
         LocationRequest mLocationRequest = new LocationRequest();
         //location update saved into a database: specified interval minimum is 5 second
-        //mLocationRequest.setInterval(1000);
-        //mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setInterval(progVal);
+        mLocationRequest.setFastestInterval(progVal);
 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 

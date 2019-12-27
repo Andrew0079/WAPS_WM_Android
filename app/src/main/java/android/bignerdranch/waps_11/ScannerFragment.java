@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -95,7 +96,7 @@ public class ScannerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //buttons for UI
-        Button stopButtonScan, buttonScan, clearButton;
+        final Button stopButtonScan, buttonScan, clearButton;
 
         //connecting to UI
         buttonScan = view.findViewById(R.id.scanBtn);
@@ -117,6 +118,10 @@ public class ScannerFragment extends Fragment {
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //setting color on pressed button
+                buttonScan.setBackgroundColor(Color.WHITE);
+                clearButton.setBackgroundColor(Color.BLACK);
+                stopButtonScan.setBackgroundColor(Color.BLACK);
                 //checking for permission
                 if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
@@ -151,6 +156,10 @@ public class ScannerFragment extends Fragment {
         stopButtonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //setting color on pressed button
+                buttonScan.setBackgroundColor(Color.BLACK);
+                clearButton.setBackgroundColor(Color.BLACK);
+                stopButtonScan.setBackgroundColor(Color.WHITE);
                 relativeLayout.setVisibility(View.INVISIBLE);
                 if(buttonClicked){ pause(); }
             }
@@ -160,6 +169,10 @@ public class ScannerFragment extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //setting color on pressed button
+                buttonScan.setBackgroundColor(Color.BLACK);
+                clearButton.setBackgroundColor(Color.WHITE);
+                stopButtonScan.setBackgroundColor(Color.BLACK);
                 relativeLayout.setVisibility(View.INVISIBLE);
                 if(!mWifiListObject.isEmpty()){
                     mWifiListObject.clear();

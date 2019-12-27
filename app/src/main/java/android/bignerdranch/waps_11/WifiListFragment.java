@@ -15,6 +15,7 @@ import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
@@ -30,7 +31,6 @@ public class WifiListFragment extends Fragment {
     private RecyclerView recyclerView;
     //an adapter to display all the information from the database
     private FirebaseRecyclerAdapter adapter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +96,11 @@ public class WifiListFragment extends Fragment {
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
                 return new ViewHolder(view);
+            }
 
+            @Override
+            public int getItemCount() {
+                return super.getItemCount();
             }
         };
         //setting the adapter for recycler View
@@ -110,5 +114,15 @@ public class WifiListFragment extends Fragment {
     //if the fragment is removed from the stack, the adapter stops displaying data from the database
     @Override
     public void onStop() { super.onStop(); adapter.stopListening(); }
+
+    public void deleteData() {
+
+        //getting user id from database
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+
+        //deleting user's data from database
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("users").child(currentFirebaseUser.getUid()).child("wifiAp");
+        dbReference.removeValue();
+    }
 
 }
