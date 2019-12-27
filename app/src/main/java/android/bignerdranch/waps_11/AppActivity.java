@@ -6,17 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * This activity hosts multiple fragments.
+ * Soul of the application
+ *
+ * */
 public class AppActivity extends AppCompatActivity {
 
+    //navigation view UI
     private DrawerLayout mDrawerLayout;
 
     @Override
@@ -25,13 +29,16 @@ public class AppActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app);
 
 
-
+        //setting adn connecting to UI
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        //connecting to nav View UI
         NavigationView mNavigationView = findViewById(R.id.nav_view);
 
+        //getting the menu items from navigation
         Menu menuNav = mNavigationView.getMenu();
+        //logout item, user can log out
         MenuItem logoutItem = menuNav.findItem(R.id.Logout);
         logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -42,11 +49,13 @@ public class AppActivity extends AppCompatActivity {
         });
 
 
+        //navigation menu, user can navigate between fragments
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
+                //list of menu items, each connects to a specific fragment
                 switch (menuItem.getItemId()){
                     case R.id.nav_home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScannerFragment()).commit();
@@ -58,8 +67,7 @@ public class AppActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
                         break;
                     case R.id.indoorLocation:
-                        Intent intent = new Intent(AppActivity.this, RegionActivity.class);
-                        startActivity(intent);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new IARegionFragment()).commit();
                         break;
                     case R.id.locationList:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LocationListFragment()).commit();
@@ -77,26 +85,30 @@ public class AppActivity extends AppCompatActivity {
                 return true;
             }
         });
+        //toggle between ope and close of the navigation menu
         ActionBarDrawerToggle mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
+        //if the user logs in for first time and the activity doesn't host any fragment
+        //this code will draws the first fragment on the screen
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ScannerFragment()).commit();
             mNavigationView.setCheckedItem(R.id.nav_home);
         }
     }
 
+    //handling back pressd on navigation
     @Override
     public void onBackPressed() {
         if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){ mDrawerLayout.closeDrawer(GravityCompat.START); }
         else { super.onBackPressed(); }
     }
 
+    //log out method to log the user out
     public void logOut(){
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
-
     }
 }
