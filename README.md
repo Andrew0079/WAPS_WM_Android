@@ -20,6 +20,9 @@ The scan will still start, but the results must not be displayed since the scann
 
 Keep the scanning time at least five seconds or higher.
 
+Git: https://github.com/Andrew0079/WAPS_WM_Android.git
 Login Credentials:
         email: test@gmail.com
         password: 123456
+
+
