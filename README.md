@@ -18,4 +18,8 @@ The app scans perfectly starting from the lowest time interval, which is five se
 However, trying to initiate a scan frequency less the five seconds might do not work as expected. 
 The scan will still start, but the results must not be displayed since the scanner does not have time to finish a scan before initiating another one. 
 
-Keep the scanning time at least five seconds or higher. 
+Keep the scanning time at least five seconds or higher.
+
+Login Credentials:
+        email: test@gmail.com
+        password: 123456
